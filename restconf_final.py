@@ -132,6 +132,6 @@ def status():
             return "Aready Down"
     elif(resp.status_code == 404):
         print("STATUS NOT FOUND: {}".format(resp.status_code))
-        return "404"
+        return "404 NOT FOUND"
     else:
         print('Error. Status Code: {}'.format(resp.status_code))
