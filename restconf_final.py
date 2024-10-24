@@ -150,12 +150,12 @@ def status():
         interface_name = response_json["ietf-interfaces:interface"]["name"]
         admin_status = response_json["ietf-interfaces:interface"]["admin-status"]
         oper_status = response_json["ietf-interfaces:interface"]["oper-status"]
-        if(admin_status == 'up' and oper_status == 'up' and interface_name == 'Loopback65070168'):
-            return "Interface loopback 65070168 is enabled"
-        elif(admin_status == 'down' and oper_status == 'down' and interface_name == 'Loopback65070168'):
-            return "Interface loopback 65070168 is disabled"
-        elif(interface_name != 'Loopback65070168'):
-            return "No Interface loopback 65070168"
-        
+        if admin_status == 'up' and oper_status == 'up':
+            return "Already UP"
+        elif admin_status == 'down' and oper_status == 'down':
+            return "Aready Down"
+    elif(resp.status_code == 404):
+        print("STATUS NOT FOUND: {}".format(resp.status_code))
+        return "404"
     else:
         return "No Interface loopback 65070168"
