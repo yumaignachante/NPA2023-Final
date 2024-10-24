@@ -134,15 +134,13 @@ def disable():
 
 
 def status():
-    api_url_status = "https://10.0.15.189/restconf/data/ietf-interfaces:interfaces-state/interface=Loopback65070168"
-
     resp = requests.get(
-        api_url_status,
-        auth=basicauth, 
-        headers=headers,
-        verify=False
+            api_url + "/data/ietf-interfaces:interfaces-state/interface=Loopback65070168",
+            auth=basicauth, 
+            headers=headers, # Add
+            verify=False
         )
-
+    
     if(resp.status_code >= 200 and resp.status_code <= 299):
         print("STATUS OK: {}".format(resp.status_code))
         response_json = resp.json()
@@ -150,12 +148,12 @@ def status():
         interface_name = response_json["ietf-interfaces:interface"]["name"]
         admin_status = response_json["ietf-interfaces:interface"]["admin-status"]
         oper_status = response_json["ietf-interfaces:interface"]["oper-status"]
-        if admin_status == 'up' and oper_status == 'up':
-            return "Already UP"
-        elif admin_status == 'down' and oper_status == 'down':
-            return "Aready Down"
-    elif(resp.status_code == 404):
-        print("STATUS NOT FOUND: {}".format(resp.status_code))
-        return "404"
+        if(admin_status == 'up' and oper_status == 'up' and interface_name == 'Loopback65070168'):
+            return "Interface loopback 65070168 is enabled"
+        elif(admin_status == 'down' and oper_status == 'down' and interface_name == 'Loopback65070168'):
+            return "Interface loopback 65070168 is disabled"
+        elif(interface_name != 'Loopback65070168'):
+            return "No Interface loopback 65070168"
+        
     else:
         return "No Interface loopback 65070168"
